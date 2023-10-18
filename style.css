@@ -1,0 +1,26 @@
+body{
+    margin: 0;
+}
+
+#pokemonListContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.pokemonContainer{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    background-color: blue;
+    margin: 20px;
+}
+
+.pokemonContainer img{
+    height: 100px;
+    width: 100px;
+}
+
+.pokemonNameId{
+    display: flex;
+    justify-content: space-between;
+}
