@@ -1,13 +1,3 @@
-function mainPageHTML() {
-    return `
-    <div>
-        <h1>Pokedex</h1>
-        <div id="pokemonMainContainer">
-        </div>
-    <div>
-    `;
-}
-
 function pokemonContainerHTML(pokemon, pokemonIMG, id, i, pokemonName) {
     return `
     <div onclick="loadPokemon('${pokemon}')" id="pokemonContainer${i}" class="pokemonContainer">
@@ -22,12 +12,12 @@ function pokemonContainerHTML(pokemon, pokemonIMG, id, i, pokemonName) {
     `;
 }
 
-function pokemonTypeHTML(type, pokemonInfo){
+function pokemonTypeHTML(type, pokemonInfo) {
     document.getElementById(pokemonInfo).innerHTML += `<div class="pokemonCategory">${type}</div>`;
 }
 
-function pokemonHTML(pokemonName, ){
-    return`
+function pokemonHTML(pokemonName,) {
+    return `
     <div id="pokemonContainer">
         <div class="headerPokemon"><div>
         <div>

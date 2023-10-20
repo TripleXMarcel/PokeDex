@@ -1,0 +1,20 @@
+pokelist
+
+searchbar
+maindesign background
+language picker not useable while loading(loding = flase)
+language picker save as local storage
+
+pokemon
+
+design 
+    header 
+        backbutton, likebutton
+        name, type, img, id
+    pokemonMainContainer
+
+            about
+
+            base stats
+            evolution
+            moves

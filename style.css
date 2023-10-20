@@ -1,23 +1,46 @@
-body{
+body {
     margin: 0;
     background-color: rgb(78, 76, 76);
     font-family: 'Roboto', sans-serif;
 }
 
-h1{
+h1 {
     color: white;
     margin-left: 40px;
 }
 
-#pokemonMainContainer{
+#pokemonMainContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+select {
+    cursor: pointer;
+    margin-right: 20px;
+    font-family: 'Roboto', sans-serif;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: 600;
+}
 
-.pokemonContainer{
+select:hover {
+    background-color: #f0f0f0;
+}
+
+select:focus {
+    border: 1px solid #007bff;
+}
+
+.pokemonContainer {
     display: flex;
     margin: 10px;
     border-radius: 15px;
@@ -25,31 +48,30 @@ h1{
     height: 160px;
     cursor: pointer;
     background-size: cover;
-    
+
 }
 
-.pokemonInfoLeftContainer{
+.pokemonInfoLeftContainer {
     flex: 1;
     padding: 10px;
 }
 
-.pokemonInfoRightContainer{
+.pokemonInfoRightContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-between;
     margin-top: 10px;
-    margin-right: 10px;
 }
 
-.pokemonName{
+.pokemonName {
     color: rgb(21, 22, 21);
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.pokemonCategory{
+.pokemonCategory {
     font-size: 16px;
     color: #2e2d2d;
     background-color: rgba(255, 255, 255, 0.3);
@@ -58,19 +80,18 @@ h1{
     text-align: center;
 }
 
-.pokemonNumber{
+.pokemonNumber {
+    margin-right: 10px;
     font-size: 18px;
     color: rgb(21, 22, 21);
 }
 
-.pokemonInfoRightContainer img{
+.pokemonInfoRightContainer img {
     height: 100px;
     width: 100px;
     margin-left: 10px;
 }
 
-.displayNone{
+.displayNone {
     display: none;
 }
-
-

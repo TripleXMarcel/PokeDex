@@ -1,9 +1,18 @@
-let language = 'de';
+let languageCode = 'de';
+let loading = true;
+
+function changeLanguage() {
+    if (loading === true) {
+        let languageSelect = document.getElementById("languageDropdown");
+        languageCode = languageSelect.value;
+        init();
+    }
+}
 
 async function init() {
-    designMainPage();
+    loading = false;
+    document.getElementById('pokemonMainContainer').innerHTML = '';
     await loadAllPokemon();
-
 }
 
 async function loadAllPokemon() {
@@ -15,11 +24,7 @@ async function loadAllPokemon() {
         const pokemon = results[i];
         await loadPokemonContainer(pokemon.name, i);
     };
-}
-
-function designMainPage() {
-    let container = document.getElementById('listContainer');
-    container.innerHTML = mainPageHTML();
+        loading=true;
 }
 
 async function loadPokemonContainer(pokemon, i) {
@@ -29,46 +34,69 @@ async function loadPokemonContainer(pokemon, i) {
     let id = responseAsJSON.id;
     let name = await pokemonNameDE(id);
     container.innerHTML += pokemonContainerHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
-    pokemonType(responseAsJSON, i);
+    await pokemonType(responseAsJSON, i);
 }
 
 function firstLetterToUpperCase(word) {
-    return word[0].toUpperCase()+word.slice(1);
+    return word[0].toUpperCase() + word.slice(1);
 }
 
-async function pokemonType(responseAsJSON, i){
+async function pokemonType(responseAsJSON, i) {
     let x = '';
     if (i != null) {
-        x=i;
+        x = i;
     }
     let types = responseAsJSON['types'];
-    let backgroundIMG = 'img/'+types[0]['type']['name']+'.png';
+    let backgroundIMG = 'img/' + types[0]['type']['name'] + '.png';
     let background = `background-image: url('${backgroundIMG}')`;
     document.getElementById(`pokemonContainer${x}`).style.cssText = background;
     for (let j = 0; j < types.length; j++) {
         const typeURL = types[j]['type']['url'];
-        let type =  await pokemonTypeNameDE(typeURL);
+        let type = await pokemonTypeNameDE(typeURL);
         let pokemonInfo = `pokemonInfo${x}`;
         pokemonTypeHTML(type, pokemonInfo);
     }
 }
 
-async function pokemonNameDE(id){
+async function pokemonNameDE(id) {
     let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
     let response = await fetch(url);
     let responseAsJSON = await response.json();
-    let name = responseAsJSON['names']['5']['name'];
+    let name = await searchLanguage(responseAsJSON);
     return name;
 }
 
-async function pokemonTypeNameDE(url){
+async function pokemonTypeNameDE(url) {
     let response = await fetch(url);
     let responseAsJSON = await response.json();
-    let type = responseAsJSON['names']['4']['name'];
+    let type = await searchLanguage(responseAsJSON);
     return type;
 }
 
-async function loadPokemon(pokemon){
+async function loadPokemonJson(pokemon) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}/`;
+    let response = await fetch(url);
+    let responseAsJSON = await response.json();
+    return responseAsJSON;
+}
+
+async function designPokemon(pokemon) {
+    let container = document.getElementById('pokemon');
+    container.innerHTML = pokemonHTML();
+    let responseAsJSON = await loadPokemonJson(pokemon);
+    pokemonType(responseAsJSON, null);
+}
+
+async function searchLanguage(responseAsJSON) {
+    for (let i = 0; i < responseAsJSON['names'].length; i++) {
+        if (responseAsJSON['names'][i]['language']['name'] === languageCode) {
+            let result = await responseAsJSON['names'][i]['name'];
+            return result;
+        }
+    }
+}
+
+async function loadPokemon(pokemon) {
     designPokemon(pokemon);
     //let responseAsJSON = await loadPokemonJson(pokemon);
     //about(responseAsJSON); //Species, height, weigth, Abilities
@@ -77,21 +105,6 @@ async function loadPokemon(pokemon){
     //moves(responseAsJSON.moves);
 }
 
-async function loadPokemonJson(pokemon){
-    let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}/`;
-    let response = await fetch(url);
-    let responseAsJSON = await response.json();
-    return responseAsJSON;
-}
+async function about(responseAsJSON) {
 
-async function designPokemon(pokemon){
-    let container = document.getElementById('pokemon');
-    container.innerHTML = pokemonHTML();
-    let responseAsJSON = await loadPokemonJson(pokemon);
-    pokemonType(responseAsJSON, null);
 }
-
-async function about(responseAsJSON){
-    
-}
-
