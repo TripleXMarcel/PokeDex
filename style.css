@@ -15,6 +15,59 @@ h1 {
     justify-content: center;
 }
 
+#pokemonClose {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 998;
+}
+
+#pokemon {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    
+}
+
+#pokemonBottomContainer{
+    background-color: white;
+    padding-top: 20px;
+    border-radius: 15px;
+}
+
+.headerPokemonContainer {
+    display: flex;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    background-size:contain;
+    height: 50%;
+    flex-direction: column;
+    min-width: 240px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    margin-bottom: -40px;
+}
+
+.headerPokemonImg{
+    display: flex;
+    justify-content: center;
+}
+
+.headerPokemonImg img{
+    width: 150px;
+}
+
+.headerPokemonNameAndId{
+    display: flex;
+    justify-content: space-between;
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -48,12 +101,24 @@ select:focus {
     height: 160px;
     cursor: pointer;
     background-size: cover;
-
 }
 
 .pokemonInfoLeftContainer {
     flex: 1;
     padding: 10px;
+}
+
+.headerPokemonInfo{
+    display: flex;
+    flex-direction: column;
+}
+
+.headerPokemonBackAndFav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+
 }
 
 .pokemonInfoRightContainer {

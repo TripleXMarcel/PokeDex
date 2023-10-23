@@ -22,38 +22,35 @@ async function loadAllPokemon() {
     let results = responseAsJSON['results'];
     for (let i = 0; i < results.length; i++) {
         const pokemon = results[i];
-        await loadPokemonContainer(pokemon.name, i);
+        await loadPokemonContainer(pokemon.name, i, 'pokemonMainContainer');
     };
-        loading=true;
+    loading = true;
 }
 
-async function loadPokemonContainer(pokemon, i) {
+async function loadPokemonContainer(pokemon, i, elementId) {
     let responseAsJSON = await loadPokemonJson(pokemon);
     let pokemonIMG = responseAsJSON['sprites']['front_default'];
-    let container = document.getElementById('pokemonMainContainer');
+    let container = document.getElementById(elementId);
     let id = responseAsJSON.id;
     let name = await pokemonNameDE(id);
-    container.innerHTML += pokemonContainerHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
+    if (elementId === 'pokemonMainContainer') {
+        container.innerHTML += pokemonContainerHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
+    }
+    else {
+        container.innerHTML = pokemonHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
+    }
     await pokemonType(responseAsJSON, i);
 }
 
-function firstLetterToUpperCase(word) {
-    return word[0].toUpperCase() + word.slice(1);
-}
-
 async function pokemonType(responseAsJSON, i) {
-    let x = '';
-    if (i != null) {
-        x = i;
-    }
     let types = responseAsJSON['types'];
     let backgroundIMG = 'img/' + types[0]['type']['name'] + '.png';
     let background = `background-image: url('${backgroundIMG}')`;
-    document.getElementById(`pokemonContainer${x}`).style.cssText = background;
+    document.getElementById(`pokemonContainer${i}`).style.cssText = background;
     for (let j = 0; j < types.length; j++) {
         const typeURL = types[j]['type']['url'];
         let type = await pokemonTypeNameDE(typeURL);
-        let pokemonInfo = `pokemonInfo${x}`;
+        let pokemonInfo = `pokemonInfo${i}`;
         pokemonTypeHTML(type, pokemonInfo);
     }
 }
@@ -82,9 +79,9 @@ async function loadPokemonJson(pokemon) {
 
 async function designPokemon(pokemon) {
     let container = document.getElementById('pokemon');
-    container.innerHTML = pokemonHTML();
-    let responseAsJSON = await loadPokemonJson(pokemon);
-    pokemonType(responseAsJSON, null);
+    container.classList.remove('displayNone');
+    document.getElementById('pokemonClose').classList.remove('displayNone');
+    loadPokemonContainer(pokemon, '', 'pokemon');
 }
 
 async function searchLanguage(responseAsJSON) {
@@ -107,4 +104,9 @@ async function loadPokemon(pokemon) {
 
 async function about(responseAsJSON) {
 
+}
+
+function closePokemon() {
+    document.getElementById('pokemon').classList.add('displayNone');
+    document.getElementById('pokemonClose').classList.add('displayNone');
 }

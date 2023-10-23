@@ -16,21 +16,35 @@ function pokemonTypeHTML(type, pokemonInfo) {
     document.getElementById(pokemonInfo).innerHTML += `<div class="pokemonCategory">${type}</div>`;
 }
 
-function pokemonHTML(pokemonName,) {
+function pokemonHTML(pokemon, pokemonIMG, id, i, pokemonName) {
     return `
-    <div id="pokemonContainer">
-        <div class="headerPokemon"><div>
+    <div id="pokemonContainer" class="headerPokemonContainer">
         <div>
-            <div>
-                <div>
-                </div>
-                <div id="pokemonInfo">
-                </div>
+            <div class="headerPokemonBackAndFav">
+                <img src="back.png">
+                <img src="like.png">
             </div>
-            <div>id
+            <div class="headerPokemonNameAndId">
+                <div class="headerPokemonInfo">
+                    <div>${pokemonName}</div>
+                    <div id="pokemonInfo"></div>
+                </div>
+                <div>${id}</div>
             </div>
         </div>
-        <img src="">
+        <div class="headerPokemonImg">
+            <img src="${pokemonIMG}">
+        </div>
+    </div>
+    <div id="pokemonBottomContainer">
+        <table>
+        <ul>1</ul>
+        <ul>1</ul>
+        <ul>1</ul>
+        <ul>1</ul>
+        <ul>1</ul>
+        <ul>1</ul>
+        </table>
     </div>
     `;
 }
