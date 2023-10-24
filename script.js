@@ -32,12 +32,13 @@ async function loadPokemonContainer(pokemon, i, elementId) {
     let pokemonIMG = responseAsJSON['sprites']['front_default'];
     let container = document.getElementById(elementId);
     let id = responseAsJSON.id;
-    let name = await pokemonNameDE(id);
+    let url = responseAsJSON['species']['url'];
+    let name = await pokemonTypeName(url);
     if (elementId === 'pokemonMainContainer') {
         container.innerHTML += pokemonContainerHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
     }
     else {
-        container.innerHTML = pokemonHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
+        container.innerHTML = pokemonHTML(pokemonIMG, id.toString().padStart(3, '0'), name, pokemon);
     }
     await pokemonType(responseAsJSON, i);
 }
@@ -49,21 +50,13 @@ async function pokemonType(responseAsJSON, i) {
     document.getElementById(`pokemonContainer${i}`).style.cssText = background;
     for (let j = 0; j < types.length; j++) {
         const typeURL = types[j]['type']['url'];
-        let type = await pokemonTypeNameDE(typeURL);
+        let type = await pokemonTypeName(typeURL);
         let pokemonInfo = `pokemonInfo${i}`;
         pokemonTypeHTML(type, pokemonInfo);
     }
 }
 
-async function pokemonNameDE(id) {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
-    let response = await fetch(url);
-    let responseAsJSON = await response.json();
-    let name = await searchLanguage(responseAsJSON);
-    return name;
-}
-
-async function pokemonTypeNameDE(url) {
+async function pokemonTypeName(url) {
     let response = await fetch(url);
     let responseAsJSON = await response.json();
     let type = await searchLanguage(responseAsJSON);
@@ -93,17 +86,100 @@ async function searchLanguage(responseAsJSON) {
     }
 }
 
-async function loadPokemon(pokemon) {
-    designPokemon(pokemon);
-    //let responseAsJSON = await loadPokemonJson(pokemon);
-    //about(responseAsJSON); //Species, height, weigth, Abilities
-    //stats(responseAsJSON.stats);
-    //evolution(responseAsJSON);
-    //moves(responseAsJSON.moves);
+async function about(pokemon) {
+    let responseAsJSON = await loadPokemonJson(pokemon);
+    let species = await loadSpecies(pokemon);
+    let height = responseAsJSON['height'] / 10;
+    let weight = responseAsJSON['weight'] / 10;
+    document.getElementById('pokemonAbout').innerHTML = aboutHTML(species, height, weight);
+    loadAbilities(responseAsJSON);
+    loadeggGroups(pokemon);
+    switchCard('pokemonAbout')
 }
 
-async function about(responseAsJSON) {
+async function loadAbilities(responseAsJSON) {
+    for (let i = 0; i < responseAsJSON['abilities'].length; i++) {
+        let url = responseAsJSON['abilities'][i]['ability']['url'];
+        let abilitie = await pokemonTypeName(url);
+        if (i != 0) {
+            document.getElementById('abilities').innerHTML += `, ${abilitie}`;
+        }
+        else {
+            document.getElementById('abilities').innerHTML += `${abilitie}`;
+        }
+    }
+}
 
+async function loadSpecies(pokemon) {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemon}`;
+    let response = await fetch(url);
+    let responseAsJSON = await response.json();
+    for (let i = 0; i < responseAsJSON['genera'].length; i++) {
+        if (responseAsJSON['genera'][i]['language']['name'] === languageCode) {
+            let result = await responseAsJSON['genera'][i]['genus'];
+            return result;
+        }
+    }
+}
+
+async function loadeggGroups(pokemon) {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemon}`;
+    let response = await fetch(url);
+    let responseAsJSON = await response.json();
+    for (let i = 0; i < responseAsJSON['egg_groups'].length; i++) {
+        let url = responseAsJSON['egg_groups'][i]['url'];
+        let eggGroup = await pokemonTypeName(url);
+        if (i != 0) {
+            document.getElementById('eggGroups').innerHTML += `, ${eggGroup}`;
+        }
+        else {
+            document.getElementById('eggGroups').innerHTML += `${eggGroup}`;
+        }
+    }
+}
+
+async function stats(pokemon) {
+    switchCard('pokemonBaseStats');
+    let container = document.getElementById('pokemonBaseStats');
+    container.innerHTML = "";
+    let responseAsJSON = await loadPokemonJson(pokemon);
+    for (let i = 0; i < responseAsJSON['stats'].length; i++) {
+        let baseStat = responseAsJSON['stats'][i]['base_stat'];
+        let url = responseAsJSON['stats'][i]['stat']['url'];
+        let statName = await pokemonTypeName(url);
+        container.innerHTML += pokemonBaseStatsHTML(baseStat, statName, i);
+        startProgressBarAnimation(`animation${i + 1}`, baseStat/2, `bar${i + 1}`);
+    }
+}
+
+function startProgressBarAnimation(animationId, value, barId) {
+    const animation = document.getElementById(animationId);
+    const bar = document.getElementById(barId);
+    if (animation && bar) {
+        animation.setAttribute('from', '0');
+        animation.setAttribute('to', `${value}%`);
+        animation.beginElement();
+    }
+}
+
+async function evolution(pokemon) {
+    let responseAsJSON = await loadPokemonJson(pokemon);
+    document.getElementById('pokemonEvolution').innerHTML = pokemonEvolutionHTML();
+    switchCard('pokemonEvolution');
+}
+
+async function moves(pokemon) {
+    let responseAsJSON = await loadPokemonJson(pokemon);
+    document.getElementById('pokemonMoves').innerHTML = pokemonMovesHTML();
+    switchCard('pokemonMoves');
+}
+
+function switchCard(x) {
+    document.getElementById('pokemonAbout').classList.add('displayNone');
+    document.getElementById('pokemonBaseStats').classList.add('displayNone');
+    document.getElementById('pokemonEvolution').classList.add('displayNone');
+    document.getElementById('pokemonMoves').classList.add('displayNone');
+    document.getElementById(x).classList.remove('displayNone');
 }
 
 function closePokemon() {
