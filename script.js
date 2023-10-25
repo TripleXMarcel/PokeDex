@@ -70,6 +70,13 @@ async function loadPokemonJson(pokemon) {
     return responseAsJSON;
 }
 
+async function loadPokemonSpeciesJson(pokemon) {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemon}`;
+    let response = await fetch(url);
+    let responseAsJSON = await response.json();
+    return responseAsJSON;
+}
+
 async function designPokemon(pokemon) {
     let container = document.getElementById('pokemon');
     container.classList.remove('displayNone');
@@ -111,9 +118,7 @@ async function loadAbilities(responseAsJSON) {
 }
 
 async function loadSpecies(pokemon) {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemon}`;
-    let response = await fetch(url);
-    let responseAsJSON = await response.json();
+    let responseAsJSON = await loadPokemonSpeciesJson(pokemon);
     for (let i = 0; i < responseAsJSON['genera'].length; i++) {
         if (responseAsJSON['genera'][i]['language']['name'] === languageCode) {
             let result = await responseAsJSON['genera'][i]['genus'];
@@ -123,9 +128,7 @@ async function loadSpecies(pokemon) {
 }
 
 async function loadeggGroups(pokemon) {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemon}`;
-    let response = await fetch(url);
-    let responseAsJSON = await response.json();
+    let responseAsJSON = await loadPokemonSpeciesJson(pokemon);
     for (let i = 0; i < responseAsJSON['egg_groups'].length; i++) {
         let url = responseAsJSON['egg_groups'][i]['url'];
         let eggGroup = await pokemonTypeName(url);
@@ -148,7 +151,7 @@ async function stats(pokemon) {
         let url = responseAsJSON['stats'][i]['stat']['url'];
         let statName = await pokemonTypeName(url);
         container.innerHTML += pokemonBaseStatsHTML(baseStat, statName, i);
-        startProgressBarAnimation(`animation${i + 1}`, baseStat/2, `bar${i + 1}`);
+        startProgressBarAnimation(`animation${i + 1}`, baseStat / 2, `bar${i + 1}`);
     }
 }
 
@@ -163,15 +166,46 @@ function startProgressBarAnimation(animationId, value, barId) {
 }
 
 async function evolution(pokemon) {
-    let responseAsJSON = await loadPokemonJson(pokemon);
     document.getElementById('pokemonEvolution').innerHTML = pokemonEvolutionHTML();
+    let responseAsJSON = await loadPokemonSpeciesJson(pokemon);
     switchCard('pokemonEvolution');
+    let evolutionChainUrl = responseAsJSON['evolution_chain']['url'];
+    let evolutionChainResponse = await fetch(evolutionChainUrl);
+    let evolutionChainResponseAsJSON = await evolutionChainResponse.json();
+    pokemonEvolution(evolutionChainResponseAsJSON)
 }
+
+async function pokemonEvolution(evolutionChainResponseAsJSON){
+    whichEvolution(await evolutionChainResponseAsJSON['chain']['species']['name'], 'first');
+    for (let i = 0; i < 3; i++) {
+        if (evolutionChainResponseAsJSON['chain']['evolves_to'][i] != undefined) {
+            whichEvolution(await evolutionChainResponseAsJSON['chain']['evolves_to'][i]['species']['name'], 'second');
+        }
+    }
+    if (evolutionChainResponseAsJSON['chain']['evolves_to']['0']['evolves_to']['0'] != undefined) {
+        whichEvolution(await evolutionChainResponseAsJSON['chain']['evolves_to']['0']['evolves_to']['0']['species']['name'], 'third');
+    }
+}
+
+async function whichEvolution(pokemon, which) {
+    let container = document.getElementById(which);
+    let responseAsJSON = await loadPokemonJson(pokemon);
+    let pokemonIMG = responseAsJSON['sprites']['front_default'];
+    container.innerHTML += pokemonEvolutionIMGHTML(pokemonIMG);
+}
+
+
 
 async function moves(pokemon) {
     let responseAsJSON = await loadPokemonJson(pokemon);
-    document.getElementById('pokemonMoves').innerHTML = pokemonMovesHTML();
+    let container = document.getElementById('pokemonMoves');
+    container.innerHTML = "";
     switchCard('pokemonMoves');
+    for (let i = 0; i < responseAsJSON['moves'].length; i++) {
+        let url = responseAsJSON['moves'][i]['move']['url'];
+        let move = await pokemonTypeName(url);
+        container.innerHTML += pokemonMovesHTML(move);
+    }
 }
 
 function switchCard(x) {

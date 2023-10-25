@@ -47,7 +47,7 @@ function pokemonHTML(pokemonIMG, id, pokemonName, pokemon) {
         </div>
         <div id="pokemonBaseStats" class="displayNone">13
         </div>
-        <div id="pokemonEvolution" class="displayNone">14
+        <div id="pokemonEvolution" class="displayNone">
         </div>
         <div id="pokemonMoves" class="displayNone">15
         </div>
@@ -85,9 +85,17 @@ function pokemonBaseStatsHTML(baseStat, statName, i) {
         <div>
     `;
 }
-function pokemonEvolutionHTML() {
 
+function pokemonEvolutionHTML(){
+    return `<div id="first"></div>
+    <div id="second"></div>
+    <div id="third"></div>`;
 }
-function pokemonMovesHTML() {
 
+function pokemonEvolutionIMGHTML(pokemonIMG) {
+    return `<img src="${pokemonIMG}">`;
+}
+
+function pokemonMovesHTML(move) {
+    return `<div>${move}</div>`;
 }
