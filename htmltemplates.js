@@ -37,11 +37,11 @@ function pokemonHTML(pokemonIMG, id, pokemonName, pokemon) {
         </div>
     </div>
     <div id="pokemonBottomContainer">
-        <div>
-            <div onclick="about('${pokemon}');">About</div>
-            <div onclick="stats('${pokemon}')">BaseStats</div>
-            <div onclick="evolution('${pokemon}')">Evolution</div>
-            <div onclick="moves('${pokemon}')">Moves</div>
+        <div class="">
+            <div onclick="about('${pokemon}');">${languageAbout}</div>
+            <div onclick="stats('${pokemon}')">${languageStats}</div>
+            <div onclick="evolution('${pokemon}')">${languageEvolution}</div>
+            <div onclick="moves('${pokemon}')">${languageMoves}</div>
         </div>
         <div id="pokemonAbout">12
         </div>
@@ -58,15 +58,15 @@ function pokemonHTML(pokemonIMG, id, pokemonName, pokemon) {
 function aboutHTML(species, height, weight) {
     return `
     <div>
-        <div>Species</div>
+        <div>${languageSpecies}</div>
         <div>${species}</div>
-        <div>Height</div>
+        <div>${languageHeight}</div>
         <div>${height} m</div>
-        <div>Weight</div>
+        <div>${languageWeight}</div>
         <div>${weight} m</div>
-        <div>Abilities</div>
+        <div>${languageAbilities}</div>
         <div id="abilities"></div>
-        <div>Egg Group</div>
+        <div>${languageEggGroups}</div>
         <div id="eggGroups"></div>
     </div>
     `;

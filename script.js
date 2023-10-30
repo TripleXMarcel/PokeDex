@@ -1,18 +1,155 @@
 let languageCode = 'de';
-let loading = true;
+let loadedPokemon = [];
+let languageAbout = '';
+let languageStats = '';
+let languageEvolution = '';
+let languageMoves = '';
+let languageSpecies = '';
+let languageHeight = '';
+let languageWeight = '';
+let languageAbilities = '';
+let languageEggGroups = '';
 
 function changeLanguage() {
-    if (loading === true) {
-        let languageSelect = document.getElementById("languageDropdown");
-        languageCode = languageSelect.value;
-        init();
-    }
+    let languageSelect = document.getElementById("languageDropdown");
+    languageCode = languageSelect.value;
+    init();
 }
 
 async function init() {
-    loading = false;
+    loading();
+    loadLanguage();
     document.getElementById('pokemonMainContainer').innerHTML = '';
     await loadAllPokemon();
+    loadingFinish();
+
+}
+
+function loadLanguage() {
+    if (languageCode === 'de') {
+        loadGerman();
+    }
+    if (languageCode === 'en') {
+        loadEnglish();
+    }
+    if (languageCode === 'fr') {
+        loadFrench();
+    }
+    if (languageCode === 'ja') {
+        loadJapanese();
+    }
+    if (languageCode === 'it') {
+        loadItalian();
+    }
+    if (languageCode === 'es') {
+        loadSpanish();
+    }
+    if (languageCode === 'ko') {
+        loadKorean();
+    }
+}
+
+function loadGerman() {
+    document.getElementById('searchInput').placeholder = 'Suche';
+    languageAbout = 'Über';
+    languageStats = 'Basiswerte';
+    languageEvolution = 'Entwicklung';
+    languageMoves = 'Attacken';
+    languageSpecies = 'Art';
+    languageHeight = 'Höhe';
+    languageWeight = 'Gewicht';
+    languageAbilities = 'Fähigkeiten';
+    languageEggGroups = 'Eigruppen';
+}
+
+function loadEnglish() {
+    document.getElementById('searchInput').placeholder = 'Search';
+    languageAbout = 'About';
+    languageStats = 'Base Stats';
+    languageEvolution = 'Evolution';
+    languageMoves = 'Moves';
+    languageSpecies = 'Species';
+    languageHeight = 'Height';
+    languageWeight = 'Weight';
+    languageAbilities = 'Abilities';
+    languageEggGroups = 'Egg Groups';
+}
+
+function loadFrench() {
+    document.getElementById('searchInput').placeholder = 'Recherche';
+    languageAbout = 'À propos de';
+    languageStats = 'Statistiques de base';
+    languageEvolution = 'Evolution';
+    languageMoves = 'Attaques';
+    languageSpecies = 'Espèce';
+    languageHeight = 'Taille';
+    languageWeight = 'Poids';
+    languageAbilities = 'Capacités';
+    languageEggGroups = 'Groupes d\'œufs';
+}
+
+function loadJapanese() {
+    document.getElementById('searchInput').placeholder = '検索';
+    languageAbout = '約';
+    languageStats = '基本ステータス';
+    languageEvolution = '進化';
+    languageMoves = '動き';
+    languageSpecies = '種類';
+    languageHeight = '高さ';
+    languageWeight = '重さ';
+    languageAbilities = '特性';
+    languageEggGroups = '卵グループ';
+}
+
+function loadItalian() {
+    document.getElementById('searchInput').placeholder = 'Cerca';
+    languageAbout = 'Informazioni';
+    languageStats = 'Statistiche di Base';
+    languageEvolution = 'Evoluzione';
+    languageMoves = 'Attacchi';
+    languageSpecies = 'Specie';
+    languageHeight = 'Altezza';
+    languageWeight = 'Peso';
+    languageAbilities = 'Abilità';
+    languageEggGroups = 'Gruppi Uova';
+}
+
+function loadSpanish() {
+    document.getElementById('searchInput').placeholder = 'Buscar';
+    languageAbout = 'Acerca de';
+    languageStats = 'Estadísticas Base';
+    languageEvolution = 'Evolución';
+    languageMoves = 'Movimientos';
+    languageSpecies = 'Especie';
+    languageHeight = 'Altura';
+    languageWeight = 'Peso';
+    languageAbilities = 'Habilidades';
+    languageEggGroups = 'Grupos de Huevo';
+}
+
+function loadKorean() {
+    document.getElementById('searchInput').placeholder = '검색';
+    languageAbout = '소개';
+    languageStats = '기초 스탯';
+    languageEvolution = '진화';
+    languageMoves = '기술';
+    languageSpecies = '종류';
+    languageHeight = '키';
+    languageWeight = '무게';
+    languageAbilities = '능력';
+    languageEggGroups = '알 그룹';
+}
+
+function loading() {
+    document.getElementById('mainContainer').classList.add('displayNone');
+    document.getElementById('languageDropdown').disabled = true;
+    document.getElementById('loadingScreen').classList.remove('displayNone');
+}
+
+function loadingFinish() {
+    document.getElementById('mainContainer').classList.remove('displayNone');
+    document.getElementById('languageDropdown').disabled = false;
+    document.getElementById('loadingScreen').classList.add('displayNone');
 }
 
 async function loadAllPokemon() {
@@ -24,7 +161,6 @@ async function loadAllPokemon() {
         const pokemon = results[i];
         await loadPokemonContainer(pokemon.name, i, 'pokemonMainContainer');
     };
-    loading = true;
 }
 
 async function loadPokemonContainer(pokemon, i, elementId) {
@@ -35,6 +171,7 @@ async function loadPokemonContainer(pokemon, i, elementId) {
     let url = responseAsJSON['species']['url'];
     let name = await pokemonTypeName(url);
     if (elementId === 'pokemonMainContainer') {
+        loadedPokemon.push(name);
         container.innerHTML += pokemonContainerHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
     }
     else {
@@ -175,7 +312,7 @@ async function evolution(pokemon) {
     pokemonEvolution(evolutionChainResponseAsJSON)
 }
 
-async function pokemonEvolution(evolutionChainResponseAsJSON){
+async function pokemonEvolution(evolutionChainResponseAsJSON) {
     whichEvolution(await evolutionChainResponseAsJSON['chain']['species']['name'], 'first');
     for (let i = 0; i < 3; i++) {
         if (evolutionChainResponseAsJSON['chain']['evolves_to'][i] != undefined) {

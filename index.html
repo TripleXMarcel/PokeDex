@@ -16,7 +16,8 @@
         <div>
             <header>
                 <h1>Pokedex</h1>
-                <select id="languageDropdown" onchange="changeLanguage()">
+                <input type="text" id="searchInput">
+                <select id="languageDropdown" disabled onchange="changeLanguage()">
                     <option value="de">Deutsch</option>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
@@ -26,9 +27,10 @@
                     <option value="ko">한국어</option>
                 </select>
             </header>
-            <div id="pokemonMainContainer">
-            </div>
-            <div>
+            <div id="loadingScreen"></div>
+            <div id="mainContainer">
+                <div id="pokemonMainContainer">
+                </div>
             </div>
             <div id="pokemonClose" class="displayNone" onclick="closePokemon();">
             </div>
