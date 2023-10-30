@@ -28,11 +28,11 @@ async function init() {
 async function search(){
     let inputValue = document.getElementById('searchInput').value.toLowerCase();
     for (let i = 0; i < loadedPokemon.length; i++) {
-        if (!loadedPokemon[i].toLowerCase().includes(inputValue)) {
-            document.getElementById(`pokemonContainer${i}`).classList.add('displayNone');
+        if (loadedPokemon[i].toLowerCase().includes(inputValue)) {
+            document.getElementById(`pokemonContainer${i}`).classList.remove('displayNone');
         }
         else{
-            document.getElementById(`pokemonContainer${i}`).classList.remove('displayNone');
+            document.getElementById(`pokemonContainer${i}`).classList.add('displayNone');
         }
     }
 }
