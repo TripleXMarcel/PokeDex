@@ -18,35 +18,33 @@ function changeLanguage() {
 
 async function init() {
     loading();
+    loadedPokemon = [];
     loadLanguage();
     document.getElementById('pokemonMainContainer').innerHTML = '';
     await loadAllPokemon();
     loadingFinish();
+}
 
+async function search(){
+    let inputValue = document.getElementById('searchInput').value.toLowerCase();
+    for (let i = 0; i < loadedPokemon.length; i++) {
+        if (!loadedPokemon[i].toLowerCase().includes(inputValue)) {
+            document.getElementById(`pokemonContainer${i}`).classList.add('displayNone');
+        }
+        else{
+            document.getElementById(`pokemonContainer${i}`).classList.remove('displayNone');
+        }
+    }
 }
 
 function loadLanguage() {
-    if (languageCode === 'de') {
-        loadGerman();
-    }
-    if (languageCode === 'en') {
-        loadEnglish();
-    }
-    if (languageCode === 'fr') {
-        loadFrench();
-    }
-    if (languageCode === 'ja') {
-        loadJapanese();
-    }
-    if (languageCode === 'it') {
-        loadItalian();
-    }
-    if (languageCode === 'es') {
-        loadSpanish();
-    }
-    if (languageCode === 'ko') {
-        loadKorean();
-    }
+    if (languageCode === 'de') {loadGerman();}
+    if (languageCode === 'en') {loadEnglish();}
+    if (languageCode === 'fr') {loadFrench();}
+    if (languageCode === 'ja-Hrkt') {loadJapanese();}
+    if (languageCode === 'it') {loadItalian();}
+    if (languageCode === 'es') {loadSpanish();}
+    if (languageCode === 'ko') {loadKorean();}
 }
 
 function loadGerman() {
@@ -170,7 +168,7 @@ async function loadPokemonContainer(pokemon, i, elementId) {
     let id = responseAsJSON.id;
     let url = responseAsJSON['species']['url'];
     let name = await pokemonTypeName(url);
-    if (elementId === 'pokemonMainContainer') {
+    if (elementId === 'pokemonMainContainer') {  
         loadedPokemon.push(name);
         container.innerHTML += pokemonContainerHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
     }

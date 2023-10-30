@@ -16,12 +16,12 @@
         <div>
             <header>
                 <h1>Pokedex</h1>
-                <input type="text" id="searchInput">
+                <input type="text" id="searchInput" oninput="search()">
                 <select id="languageDropdown" disabled onchange="changeLanguage()">
                     <option value="de">Deutsch</option>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
-                    <option value="ja">日本語</option>
+                    <option value="ja-Hrkt">日本語</option>
                     <option value="it">Italiano</option>
                     <option value="es">Español</option>
                     <option value="ko">한국어</option>
@@ -37,5 +37,4 @@
             <div id="pokemon" class="displayNone">
             </div>
 </body>
-
 </html>
