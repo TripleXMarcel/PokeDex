@@ -9,6 +9,13 @@ h1 {
     margin-left: 40px;
 }
 
+input {
+    background-color: darkgray;
+    border-radius: 8px;
+    height: 30px;
+    width: 150px;
+}
+
 #pokemonMainContainer {
     display: flex;
     flex-wrap: wrap;
