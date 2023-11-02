@@ -9,6 +9,7 @@ let languageHeight = '';
 let languageWeight = '';
 let languageAbilities = '';
 let languageEggGroups = '';
+let numberOfPokemons;
 
 function changeLanguage() {
     let languageSelect = document.getElementById("languageDropdown");
@@ -17,6 +18,7 @@ function changeLanguage() {
 }
 
 async function init() {
+    numberOfPokemons = 0;
     loading();
     loadedPokemon = [];
     loadLanguage();
@@ -150,14 +152,16 @@ function loadingFinish() {
     document.getElementById('loadingScreen').classList.add('displayNone');
 }
 
+
 async function loadAllPokemon() {
-    let url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151";
+    let url = `https://pokeapi.co/api/v2/pokemon/?offset=${numberOfPokemons}&limit=20`;
     let response = await fetch(url);
     let responseAsJSON = await response.json();
     let results = responseAsJSON['results'];
     for (let i = 0; i < results.length; i++) {
         const pokemon = results[i];
-        await loadPokemonContainer(pokemon.name, i, 'pokemonMainContainer');
+        numberOfPokemons++;
+        await loadPokemonContainer(pokemon.name, numberOfPokemons, 'pokemonMainContainer');
     };
 }
 
@@ -217,6 +221,7 @@ async function designPokemon(pokemon) {
     container.classList.remove('displayNone');
     document.getElementById('pokemonClose').classList.remove('displayNone');
     loadPokemonContainer(pokemon, '', 'pokemon');
+    about(pokemon);
 }
 
 async function searchLanguage(responseAsJSON) {
