@@ -236,7 +236,7 @@ async function about(pokemon) {
     document.getElementById('pokemonAbout').innerHTML = aboutHTML(species, height, weight);
     loadAbilities(responseAsJSON);
     loadeggGroups(pokemon);
-    switchCard('pokemonAbout')
+    switchCard('pokemonAbout', 'pokemonAboutHeadline')
 }
 
 async function loadAbilities(responseAsJSON) {
@@ -277,7 +277,7 @@ async function loadeggGroups(pokemon) {
 }
 
 async function stats(pokemon) {
-    switchCard('pokemonBaseStats');
+    switchCard('pokemonBaseStats', 'pokemonBaseStatsHeadline');
     let container = document.getElementById('pokemonBaseStats');
     container.innerHTML = "";
     let responseAsJSON = await loadPokemonJson(pokemon);
@@ -303,11 +303,11 @@ function startProgressBarAnimation(animationId, value, barId) {
 async function evolution(pokemon) {
     document.getElementById('pokemonEvolution').innerHTML = pokemonEvolutionHTML();
     let responseAsJSON = await loadPokemonSpeciesJson(pokemon);
-    switchCard('pokemonEvolution');
+    switchCard('pokemonEvolution', 'pokemonEvolutionHeadline');
     let evolutionChainUrl = responseAsJSON['evolution_chain']['url'];
     let evolutionChainResponse = await fetch(evolutionChainUrl);
     let evolutionChainResponseAsJSON = await evolutionChainResponse.json();
-    pokemonEvolution(evolutionChainResponseAsJSON)
+    pokemonEvolution(evolutionChainResponseAsJSON);
 }
 
 async function pokemonEvolution(evolutionChainResponseAsJSON) {
@@ -326,7 +326,7 @@ async function whichEvolution(pokemon, which) {
     let container = document.getElementById(which);
     let responseAsJSON = await loadPokemonJson(pokemon);
     let pokemonIMG = responseAsJSON['sprites']['front_default'];
-    container.innerHTML += pokemonEvolutionIMGHTML(pokemonIMG);
+    container.innerHTML += pokemonEvolutionIMGHTML(pokemonIMG, pokemon);
 }
 
 
@@ -335,7 +335,7 @@ async function moves(pokemon) {
     let responseAsJSON = await loadPokemonJson(pokemon);
     let container = document.getElementById('pokemonMoves');
     container.innerHTML = "";
-    switchCard('pokemonMoves');
+    switchCard('pokemonMoves', 'pokemonMovesHeadline');
     for (let i = 0; i < responseAsJSON['moves'].length; i++) {
         let url = responseAsJSON['moves'][i]['move']['url'];
         let move = await pokemonTypeName(url);
@@ -343,12 +343,17 @@ async function moves(pokemon) {
     }
 }
 
-function switchCard(x) {
+function switchCard(x, y) {
     document.getElementById('pokemonAbout').classList.add('displayNone');
     document.getElementById('pokemonBaseStats').classList.add('displayNone');
     document.getElementById('pokemonEvolution').classList.add('displayNone');
     document.getElementById('pokemonMoves').classList.add('displayNone');
     document.getElementById(x).classList.remove('displayNone');
+    document.getElementById('pokemonAboutHeadline').classList.remove('active');
+    document.getElementById('pokemonBaseStatsHeadline').classList.remove('active');
+    document.getElementById('pokemonEvolutionHeadline').classList.remove('active');
+    document.getElementById('pokemonMovesHeadline').classList.remove('active');
+    document.getElementById(y).classList.add('active');
 }
 
 function closePokemon() {

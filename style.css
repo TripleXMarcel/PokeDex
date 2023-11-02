@@ -5,8 +5,29 @@ body {
 }
 
 h1 {
+    width: 150px;
+    margin-top: 0;
+    margin-bottom: 0;
     color: white;
     margin-left: 40px;
+}
+
+h3 {
+    margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+h4 {
+    color: rgb(148, 143, 143);
+    font-size: 12px;
+    margin: 0;
+    width: 80px;
+}
+
+h5 {
+    font-size: 14px;
+    margin: 0;
 }
 
 input {
@@ -32,7 +53,7 @@ input {
     z-index: 998;
 }
 
-#loadingScreen{
+#loadingScreen {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #5d676e;
     border-radius: 50%;
@@ -44,8 +65,13 @@ input {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 #pokemon {
@@ -60,6 +86,8 @@ input {
     background-color: white;
     padding-top: 20px;
     border-radius: 15px;
+    height: 280px;
+    width: 300px;
 }
 
 .headerPokemonContainer {
@@ -69,9 +97,7 @@ input {
     background-size: contain;
     height: 50%;
     flex-direction: column;
-    min-width: 240px;
-    padding-left: 15px;
-    padding-right: 15px;
+    width: 300px;
     padding-top: 15px;
     margin-bottom: -40px;
 }
@@ -88,15 +114,18 @@ input {
 .headerPokemonNameAndId {
     display: flex;
     justify-content: space-between;
+    margin: 10px;
 }
 
 header {
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 select {
+    width: 150px;
     cursor: pointer;
     margin-right: 20px;
     font-family: 'Roboto', sans-serif;
@@ -139,8 +168,14 @@ select:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 
+.headerPokemonBackAndFav img{
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
 }
 
 .pokemonInfoRightContainer {
@@ -159,6 +194,10 @@ select:focus {
 }
 
 .pokemonCategory {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     font-size: 16px;
     color: #2e2d2d;
     background-color: rgba(255, 255, 255, 0.3);
@@ -180,11 +219,96 @@ select:focus {
 }
 
 .displayNone {
-    display: none;
+    display: none !important;
 }
 
-
-
 .progressBar {
-   border-radius: 20px;
+    margin-left: 20px;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+
+}
+
+.menuHeadline {
+    padding: 2px;
+    font-size: 14px;
+    border-bottom: 3px solid #ffffff;
+    cursor: pointer;
+}
+
+.menuHeadline:hover {
+    border-bottom: 3px solid #000000;
+    font-weight: 700;
+}
+
+.active {
+    border-bottom: 2px solid #000000;
+    font-weight: 700;
+}
+
+#pokemonEvolution {
+    height: 240px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#second {
+    display: flex;
+    flex-direction: column;
+}
+
+#pokemonEvolution img {
+    cursor: pointer;
+}
+
+#pokemonMoves {
+    margin: 5px;
+    height: 240px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.width120 {
+    width: 120px;
+}
+
+.mt15 {
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 550px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        height: 150px;
+    }
+
+    h1 {
+        margin-top: 10px;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    select {
+        margin: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }

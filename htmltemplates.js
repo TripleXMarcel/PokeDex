@@ -21,15 +21,14 @@ function pokemonHTML(pokemonIMG, id, pokemonName, pokemon) {
     <div id="pokemonContainer" class="headerPokemonContainer">
         <div>
             <div class="headerPokemonBackAndFav">
-                <img src="back.png">
-                <img src="like.png">
+                <img onclick="closePokemon()" src="img/back.png">
             </div>
             <div class="headerPokemonNameAndId">
                 <div class="headerPokemonInfo">
-                    <div>${pokemonName}</div>
+                    <h3>${pokemonName}</h3>
                     <div id="pokemonInfo"></div>
                 </div>
-                <div>${id}</div>
+                <h3>${id}</h3>
             </div>
         </div>
         <div class="headerPokemonImg">
@@ -37,11 +36,11 @@ function pokemonHTML(pokemonIMG, id, pokemonName, pokemon) {
         </div>
     </div>
     <div id="pokemonBottomContainer">
-        <div class="">
-            <div onclick="about('${pokemon}');">${languageAbout}</div>
-            <div onclick="stats('${pokemon}')">${languageStats}</div>
-            <div onclick="evolution('${pokemon}')">${languageEvolution}</div>
-            <div onclick="moves('${pokemon}')">${languageMoves}</div>
+        <div class="menu">
+            <div id="pokemonAboutHeadline" class="menuHeadline" onclick="about('${pokemon}');">${languageAbout}</div>
+            <div id="pokemonBaseStatsHeadline" class="menuHeadline" onclick="stats('${pokemon}')">${languageStats}</div>
+            <div id="pokemonEvolutionHeadline" class="menuHeadline" onclick="evolution('${pokemon}')">${languageEvolution}</div>
+            <div id="pokemonMovesHeadline" class="menuHeadline" onclick="moves('${pokemon}')">${languageMoves}</div>
         </div>
         <div id="pokemonAbout">
         </div>
@@ -57,24 +56,34 @@ function pokemonHTML(pokemonIMG, id, pokemonName, pokemon) {
 
 function aboutHTML(species, height, weight) {
     return `
-    <div>
-        <div>${languageSpecies}</div>
-        <div>${species}</div>
-        <div>${languageHeight}</div>
-        <div>${height} m</div>
-        <div>${languageWeight}</div>
-        <div>${weight} m</div>
-        <div>${languageAbilities}</div>
-        <div id="abilities"></div>
-        <div>${languageEggGroups}</div>
-        <div id="eggGroups"></div>
-    </div>
+        <div class="flex mt15">
+            <h4>${languageSpecies}</h4>
+            <h5>${species}</h5>
+        </div>
+        <div class="flex mt15">
+            <h4>${languageHeight}</h4>
+            <h5>${height} m</h5>
+        </div>
+        <div class="flex mt15">
+            <h4>${languageWeight}</h4>
+            <h5>${weight} kg</h5>
+        </div>
+        <div class="flex mt15">
+            <h4>${languageAbilities}</h4>
+            <h5 id="abilities"></h5>
+        </div>
+        <div class="flex mt15">
+            <h4>${languageEggGroups}</h4>
+            <h5 id="eggGroups"></h5>
+        </div>
     `;
 }
 function pokemonBaseStatsHTML(baseStat, statName, i) {
     return `
-        <div>${statName}</div>
-        <div>${baseStat}</div>
+    <div class="flex">
+        <h4 class="width120">${statName}</h4>
+        <h5>${baseStat}</h5>
+        </div>
         <div class="progressBar">
         <svg xmlns="http://www.w3.org/2000/svg" width="200px" height="12px">
             <rect x="0" y="0" width="200px" height="12px" fill="#ffffff" />
@@ -82,20 +91,20 @@ function pokemonBaseStatsHTML(baseStat, statName, i) {
             <animate attributeName="width" from="0" to="0" dur="1s" fill="freeze" begin="0s" id="animation${i + 1}" />
             </rect>
         </svg>
-        <div>
+        </div>
     `;
 }
 
-function pokemonEvolutionHTML(){
+function pokemonEvolutionHTML() {
     return `<div id="first"></div>
-    <div id="second"></div>
-    <div id="third"></div>`;
+            <div id="second"></div>
+            <div id="third"></div>`;
 }
 
-function pokemonEvolutionIMGHTML(pokemonIMG) {
-    return `<img src="${pokemonIMG}">`;
+function pokemonEvolutionIMGHTML(pokemonIMG, pokemon) {
+    return `<img onclick="designPokemon('${pokemon}')" src="${pokemonIMG}">`;
 }
 
 function pokemonMovesHTML(move) {
-    return `<div>${move}</div>`;
+    return `<h4>${move}</h4>`;
 }
