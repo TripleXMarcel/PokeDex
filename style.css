@@ -250,6 +250,10 @@ select:focus {
     font-weight: 700;
 }
 
+#abilities{
+    overflow-wrap: break-word;
+}
+
 #pokemonEvolution {
     height: 240px;
     display: flex;

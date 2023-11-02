@@ -244,7 +244,7 @@ async function loadAbilities(responseAsJSON) {
         let url = responseAsJSON['abilities'][i]['ability']['url'];
         let abilitie = await pokemonTypeName(url);
         if (i != 0) {
-            document.getElementById('abilities').innerHTML += `, ${abilitie}`;
+            document.getElementById('abilities').innerHTML += `, <br>${abilitie}`;
         }
         else {
             document.getElementById('abilities').innerHTML += `${abilitie}`;
