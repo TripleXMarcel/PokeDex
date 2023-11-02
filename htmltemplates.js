@@ -43,13 +43,13 @@ function pokemonHTML(pokemonIMG, id, pokemonName, pokemon) {
             <div onclick="evolution('${pokemon}')">${languageEvolution}</div>
             <div onclick="moves('${pokemon}')">${languageMoves}</div>
         </div>
-        <div id="pokemonAbout">12
+        <div id="pokemonAbout">
         </div>
-        <div id="pokemonBaseStats" class="displayNone">13
+        <div id="pokemonBaseStats" class="displayNone">
         </div>
         <div id="pokemonEvolution" class="displayNone">
         </div>
-        <div id="pokemonMoves" class="displayNone">15
+        <div id="pokemonMoves" class="displayNone">
         </div>
     </div>
     `;

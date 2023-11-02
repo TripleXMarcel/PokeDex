@@ -51,7 +51,7 @@ function loadGerman() {
     document.getElementById('searchInput').placeholder = 'Suche';
     languageAbout = 'Über';
     languageStats = 'Basiswerte';
-    languageEvolution = 'Entwicklung';
+    languageEvolution = 'Entwicklung'; 
     languageMoves = 'Attacken';
     languageSpecies = 'Art';
     languageHeight = 'Höhe';
