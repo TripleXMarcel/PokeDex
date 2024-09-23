@@ -160,8 +160,8 @@ async function loadAllPokemon() {
     let results = responseAsJSON['results'];
     for (let i = 0; i < results.length; i++) {
         const pokemon = results[i];
-        numberOfPokemons++;
         await loadPokemonContainer(pokemon.name, numberOfPokemons, 'pokemonMainContainer');
+        numberOfPokemons++;
     };
 }
 
