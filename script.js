@@ -10,6 +10,7 @@ let languageWeight = '';
 let languageAbilities = '';
 let languageEggGroups = '';
 let numberOfPokemons;
+let loading = true;
 
 function changeLanguage() {
     let languageSelect = document.getElementById("languageDropdown");
@@ -19,7 +20,7 @@ function changeLanguage() {
 
 async function init() {
     numberOfPokemons = 0;
-    loading();
+    loadingStart();
     loadedPokemon = [];
     loadLanguage();
     document.getElementById('pokemonMainContainer').innerHTML = '';
@@ -27,33 +28,33 @@ async function init() {
     loadingFinish();
 }
 
-async function search(){
+async function search() {
     let inputValue = document.getElementById('searchInput').value.toLowerCase();
     for (let i = 0; i < loadedPokemon.length; i++) {
         if (loadedPokemon[i].toLowerCase().includes(inputValue)) {
             document.getElementById(`pokemonContainer${i}`).classList.remove('displayNone');
         }
-        else{
+        else {
             document.getElementById(`pokemonContainer${i}`).classList.add('displayNone');
         }
     }
 }
 
 function loadLanguage() {
-    if (languageCode === 'de') {loadGerman();}
-    if (languageCode === 'en') {loadEnglish();}
-    if (languageCode === 'fr') {loadFrench();}
-    if (languageCode === 'ja-Hrkt') {loadJapanese();}
-    if (languageCode === 'it') {loadItalian();}
-    if (languageCode === 'es') {loadSpanish();}
-    if (languageCode === 'ko') {loadKorean();}
+    if (languageCode === 'de') { loadGerman(); }
+    if (languageCode === 'en') { loadEnglish(); }
+    if (languageCode === 'fr') { loadFrench(); }
+    if (languageCode === 'ja-Hrkt') { loadJapanese(); }
+    if (languageCode === 'it') { loadItalian(); }
+    if (languageCode === 'es') { loadSpanish(); }
+    if (languageCode === 'ko') { loadKorean(); }
 }
 
 function loadGerman() {
     document.getElementById('searchInput').placeholder = 'Suche';
     languageAbout = 'Über';
     languageStats = 'Basiswerte';
-    languageEvolution = 'Entwicklung'; 
+    languageEvolution = 'Entwicklung';
     languageMoves = 'Attacken';
     languageSpecies = 'Art';
     languageHeight = 'Höhe';
@@ -140,7 +141,7 @@ function loadKorean() {
     languageEggGroups = '알 그룹';
 }
 
-function loading() {
+function loadingStart() {
     document.getElementById('mainContainer').classList.add('displayNone');
     document.getElementById('languageDropdown').disabled = true;
     document.getElementById('loadingScreen').classList.remove('displayNone');
@@ -150,8 +151,18 @@ function loadingFinish() {
     document.getElementById('mainContainer').classList.remove('displayNone');
     document.getElementById('languageDropdown').disabled = false;
     document.getElementById('loadingScreen').classList.add('displayNone');
+    document.getElementById('loadingButton').classList.remove('displayNone');
+    loading = true;
 }
 
+function loadNewPokemon() {
+    if (loading == true) {
+        document.getElementById('loadingScreen').classList.remove('displayNone');
+        document.getElementById('loadingButton').classList.add('displayNone');
+        loading = false;
+        loadAllPokemon();
+    }
+}
 
 async function loadAllPokemon() {
     let url = `https://pokeapi.co/api/v2/pokemon/?offset=${numberOfPokemons}&limit=20`;
@@ -163,6 +174,7 @@ async function loadAllPokemon() {
         await loadPokemonContainer(pokemon.name, numberOfPokemons, 'pokemonMainContainer');
         numberOfPokemons++;
     };
+    loadingFinish();
 }
 
 async function loadPokemonContainer(pokemon, i, elementId) {
@@ -172,7 +184,7 @@ async function loadPokemonContainer(pokemon, i, elementId) {
     let id = responseAsJSON.id;
     let url = responseAsJSON['species']['url'];
     let name = await pokemonTypeName(url);
-    if (elementId === 'pokemonMainContainer') {  
+    if (elementId === 'pokemonMainContainer') {
         loadedPokemon.push(name);
         container.innerHTML += pokemonContainerHTML(pokemon, pokemonIMG, id.toString().padStart(3, '0'), i, name);
     }

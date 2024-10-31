@@ -36,6 +36,7 @@ button{
     background-color: rgb(87, 86, 86);
     border: 3px solid #000000;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .buttonContainer {
